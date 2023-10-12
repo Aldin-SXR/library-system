@@ -1,0 +1,8 @@
+configuration:
+  swagger:
+    app: 'Library System'
+    description: 'A simple library system built with Spring Boot'
+    developer: 'Aldin Kovačević'
+    email: 'aldin.kovacevic@ibu.edu.ba'
+  mailsender:
+    default: 'sendgrid'
