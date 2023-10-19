@@ -2,6 +2,7 @@ package ba.edu.ibu.library.core.service;
 
 import ba.edu.ibu.library.core.model.Book;
 import ba.edu.ibu.library.core.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -23,7 +24,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book findById(@PathVariable int id) {
+    public Book findById(int id) {
         return bookRepository.findById(id);
     }
 }

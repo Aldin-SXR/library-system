@@ -1,17 +1,18 @@
 package ba.edu.ibu.library.core.model;
 
-public class Book {
-    private int id;
-    private String title;
-    private String genre;
-    private int yearOfPublishing;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-    public Book(int id, String title, String genre, int yearOfPublishing) {
-        this.id = id;
-        this.title = title;
-        this.genre = genre;
-        this.yearOfPublishing = yearOfPublishing;
-    }
+@Document
+public class Book {
+    @Id
+    private int id;
+    private String isbn;
+    private String title;
+    private String category;
+    private int publicationYear;
+    private int numberOfPages;
+    private String language;
 
     public int getId() {
         return id;
@@ -19,6 +20,14 @@ public class Book {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public String getTitle() {
@@ -29,19 +38,35 @@ public class Book {
         this.title = title;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getCategory() {
+        return category;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public int getYearOfPublishing() {
-        return yearOfPublishing;
+    public int getPublicationYear() {
+        return publicationYear;
     }
 
-    public void setYearOfPublishing(int yearOfPublishing) {
-        this.yearOfPublishing = yearOfPublishing;
+    public void setPublicationYear(int publicationYear) {
+        this.publicationYear = publicationYear;
+    }
+
+    public int getNumberOfPages() {
+        return numberOfPages;
+    }
+
+    public void setNumberOfPages(int numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

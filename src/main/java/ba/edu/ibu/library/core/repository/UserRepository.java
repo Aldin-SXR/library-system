@@ -1,24 +1,27 @@
 package ba.edu.ibu.library.core.repository;
 
 import ba.edu.ibu.library.core.model.User;
+import ba.edu.ibu.library.core.model.enums.UserType;
+import org.springframework.data.mongodb.repository.Aggregation;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class UserRepository {
+public interface UserRepository extends MongoRepository<User, String> {
+    @Aggregation(pipeline = """
+        { $match: { _id: { $exists: true } } }
+    """)
+    List<User> findAllCustom();
 
-    private List<User> users;
 
-    public UserRepository() {
-        this.users = Arrays.asList(
-                new User(1, "Aldin", "Kovačević", "aldin.kovacevic@ibu.edu.ba"),
-                new User(2, "Bećir", "Isaković", "becir.isakovic@ibu.edu.ba")
-        );
-    }
+    @Query(value="{email:'?0'}", fields="{'id': 1, 'firstName': 1, 'lastName': 1, 'email': 1, 'username': 1, 'userType': 1}")
+    Optional<User> findByEmailCustom(String email);
 
-    public List<User> findAll() {
-        return users;
-    }
+    Optional<User> findFirstByEmailLike(String emailPattern);
+
+    List<User> findByEmailAndUserTypeOrderByCreationDateDesc(String email, UserType userType);
 }

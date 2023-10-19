@@ -1,8 +1,23 @@
 configuration:
   swagger:
-    app: 'Library System'
+    app: 'Library System 2.0'
     description: 'A simple library system built with Spring Boot'
     developer: 'Aldin Kovačević'
     email: 'aldin.kovacevic@ibu.edu.ba'
+
   mailsender:
-    default: 'sendgrid'
+    default: 'mailgun'
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: library
+
+email:
+  mailgun:
+    domain: https://api.mailgun.net/v3/sandbox29278405945b4dc68ec56e4e841715a0.mailgun.org
+    from-email: Library System <mailgun@sandbox29278405945b4dc68ec56e4e841715a0.mailgun.org>
+    username: api
+    password: b6ab4017ca3ca6bf54832afa11bd554e-3750a53b-1f515ec8
