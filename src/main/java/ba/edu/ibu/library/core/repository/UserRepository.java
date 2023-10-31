@@ -21,6 +21,11 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query(value="{email:'?0'}", fields="{'id': 1, 'firstName': 1, 'lastName': 1, 'email': 1, 'username': 1, 'userType': 1}")
     Optional<User> findByEmailCustom(String email);
 
+    Optional<User> findByEmail(String email);
+
+    @Query(value="{$or:[{email:'?0'}, {username:'?0'}]}")
+    Optional<User> findByUsernameOrEmail(String username);
+
     Optional<User> findFirstByEmailLike(String emailPattern);
 
     List<User> findByEmailAndUserTypeOrderByCreationDateDesc(String email, UserType userType);
