@@ -6,7 +6,12 @@ import ba.edu.ibu.library.core.model.User;
 import ba.edu.ibu.library.core.repository.UserRepository;
 import ba.edu.ibu.library.rest.dto.UserDTO;
 import ba.edu.ibu.library.rest.dto.UserRequestDTO;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.io.NotActiveException;
@@ -81,5 +86,15 @@ public class UserService {
         Optional<User> user = userRepository.findFirstByEmailLike(email);
         // Optional<User> user = userRepository.findByEmailCustom(email);
         return user.map(UserDTO::new).orElse(null);
+    }
+
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) {
+                return userRepository.findByUsernameOrEmail(username)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            }
+        };
     }
 }
