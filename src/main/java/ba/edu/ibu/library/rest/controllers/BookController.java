@@ -29,7 +29,7 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('LIBRARIAN', 'ADMIN')")
     public ResponseEntity<Book> addBook(@RequestBody BookRequestDTO book) {
         return ResponseEntity.ok(bookService.addBook(book));
     }
@@ -40,13 +40,13 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('LIBRARIAN', 'ADMIN')")
     public ResponseEntity<Book> updateBook(@PathVariable String id, @RequestBody BookRequestDTO book) {
         return ResponseEntity.ok(bookService.updateBook(id, book));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('LIBRARIAN', 'ADMIN')")
     public ResponseEntity<Void> deleteBook(@PathVariable String id) {
         bookService.deleteBook(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

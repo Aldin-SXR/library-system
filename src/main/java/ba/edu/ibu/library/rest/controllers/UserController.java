@@ -25,7 +25,7 @@ public class UserController {
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/")
-    @PreAuthorize("hasAuthority('LIBRARIAN') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('LIBRARIAN', 'ADMIN')")
     public ResponseEntity<List<UserDTO>> getUsers() {
         return ResponseEntity.ok(userService.getUsers());
     }
@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    @PreAuthorize("hasAuthority('LIBRARIAN') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('LIBRARIAN', 'ADMIN')")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/filter")
-    @PreAuthorize("hasAuthority('LIBRARIAN') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('LIBRARIAN', 'ADMIN')")
     public ResponseEntity<UserDTO> filterUser(@RequestParam String email) {
         return ResponseEntity.ok(userService.filterByEmail(email));
     }

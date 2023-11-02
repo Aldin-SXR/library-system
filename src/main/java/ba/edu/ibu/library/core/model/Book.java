@@ -8,7 +8,7 @@ import java.util.Date;
 @Document
 public class Book {
     @Id
-    private int id;
+    private String id;
     private String isbn;
     private String title;
     private String category;
@@ -17,11 +17,11 @@ public class Book {
     private String language;
     private Date creationDate;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
