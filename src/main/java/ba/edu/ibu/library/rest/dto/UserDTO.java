@@ -11,7 +11,6 @@ public class UserDTO {
     private String username;
     private UserType userType;
     private String email;
-
     private Date creationDate;
 
     public UserDTO(User user) {

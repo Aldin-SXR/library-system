@@ -5,6 +5,7 @@ import ba.edu.ibu.library.core.model.User;
 import ba.edu.ibu.library.core.repository.UserRepository;
 import ba.edu.ibu.library.rest.dto.LoginDTO;
 import ba.edu.ibu.library.rest.dto.LoginRequestDTO;
+import ba.edu.ibu.library.rest.dto.UserDTO;
 import ba.edu.ibu.library.rest.dto.UserRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,14 +29,13 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public LoginDTO signUp(UserRequestDTO userRequestDTO) {
+    public UserDTO signUp(UserRequestDTO userRequestDTO) {
         userRequestDTO.setPassword(
                 passwordEncoder.encode(userRequestDTO.getPassword())
         );
-        userRepository.save(userRequestDTO.toEntity());
-        String jwt = jwtService.generateToken(userRequestDTO.toEntity());
+        User user = userRepository.save(userRequestDTO.toEntity());
 
-        return new LoginDTO(jwt);
+        return new UserDTO(user);
     }
 
     public LoginDTO signIn(LoginRequestDTO loginRequestDTO) {
