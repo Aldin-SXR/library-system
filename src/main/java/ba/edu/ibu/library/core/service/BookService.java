@@ -1,12 +1,13 @@
 package ba.edu.ibu.library.core.service;
 
+import ba.edu.ibu.library.core.exceptions.repository.ResourceNotFoundException;
 import ba.edu.ibu.library.core.model.Book;
 import ba.edu.ibu.library.core.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Value;
+import ba.edu.ibu.library.rest.dto.BookRequestDTO;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -20,11 +21,35 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> findAll() {
+    public List<Book> getBooks() {
         return bookRepository.findAll();
     }
 
-    public Book findById(int id) {
-        return bookRepository.findById(id);
+    public Book getBookById(String id) {
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isEmpty()) {
+            throw new ResourceNotFoundException("The book with the given ID does not exist.");
+        }
+        return book.get();
+    }
+
+    public Book addBook(BookRequestDTO payload) {
+        return bookRepository.save(payload.toEntity());
+    }
+
+    public Book updateBook(String id, BookRequestDTO payload) {
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isEmpty()) {
+            throw new ResourceNotFoundException("The book with the given ID does not exist.");
+        }
+        Book updatedBook = payload.toEntity();
+        updatedBook.setId(book.get().getId());
+        updatedBook = bookRepository.save(updatedBook);
+        return updatedBook;
+    }
+
+    public void deleteBook(String id) {
+        Optional<Book> book = bookRepository.findById(id);
+        book.ifPresent(bookRepository::delete);
     }
 }

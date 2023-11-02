@@ -1,28 +1,38 @@
-package ba.edu.ibu.library.core.model;
+package ba.edu.ibu.library.rest.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import ba.edu.ibu.library.core.model.Book;
 
 import java.util.Date;
 
-@Document
-public class Book {
-    @Id
-    private int id;
+public class BookRequestDTO {
     private String isbn;
     private String title;
     private String category;
     private int publicationYear;
     private int numberOfPages;
     private String language;
-    private Date creationDate;
 
-    public int getId() {
-        return id;
+    public BookRequestDTO() { }
+
+    public BookRequestDTO(Book book) {
+        this.isbn = book.getIsbn();
+        this.title = book.getTitle();
+        this.category = book.getCategory();
+        this.publicationYear = book.getPublicationYear();
+        this.numberOfPages = book.getNumberOfPages();
+        this.language = book.getLanguage();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Book toEntity() {
+        Book book = new Book();
+        book.setIsbn(isbn);
+        book.setTitle(title);
+        book.setCategory(category);
+        book.setPublicationYear(publicationYear);
+        book.setNumberOfPages(numberOfPages);
+        book.setLanguage(language);
+        book.setCreationDate(new Date());
+        return book;
     }
 
     public String getIsbn() {
@@ -71,13 +81,5 @@ public class Book {
 
     public void setLanguage(String language) {
         this.language = language;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 }
