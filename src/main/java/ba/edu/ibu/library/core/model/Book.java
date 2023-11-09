@@ -17,6 +17,19 @@ public class Book {
     private String language;
     private Date creationDate;
 
+    public Book() { }
+
+    public Book(String id, String isbn, String title, String category, int publicationYear, int numberOfPages, String language, Date creationDate) {
+        this.id = id;
+        this.isbn = isbn;
+        this.title = title;
+        this.category = category;
+        this.publicationYear = publicationYear;
+        this.numberOfPages = numberOfPages;
+        this.language = language;
+        this.creationDate = creationDate;
+    }
+
     public String getId() {
         return id;
     }
