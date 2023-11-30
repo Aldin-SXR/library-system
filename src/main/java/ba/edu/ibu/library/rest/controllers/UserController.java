@@ -1,5 +1,6 @@
 package ba.edu.ibu.library.rest.controllers;
 
+import ba.edu.ibu.library.core.model.Book;
 import ba.edu.ibu.library.core.model.User;
 import ba.edu.ibu.library.core.service.UserService;
 import ba.edu.ibu.library.rest.dto.UserDTO;
@@ -59,5 +60,10 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('LIBRARIAN', 'ADMIN')")
     public ResponseEntity<UserDTO> filterUser(@RequestParam String email) {
         return ResponseEntity.ok(userService.filterByEmail(email));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/{userId}/borrowed-books")
+    public ResponseEntity<List<Book>> getBorrowedBooksByUser(@PathVariable String userId) {
+        return ResponseEntity.ok(userService.getBooksByUser(userId));
     }
 }

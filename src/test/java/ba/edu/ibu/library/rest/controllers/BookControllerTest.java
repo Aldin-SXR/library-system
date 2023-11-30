@@ -19,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
@@ -55,9 +56,12 @@ public class BookControllerTest {
                         MockMvcRequestBuilders
                                 .get("/api/books/")
                                 .contentType(MediaType.APPLICATION_JSON)
-                ).andReturn();
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
 
         String response = result.getResponse().getContentAsString();
+        System.out.println(response);
         Assertions.assertEquals(1, (Integer) JsonPath.read(response, "$.length()"));
         Assertions.assertEquals("Treasure Island", JsonPath.read(response, "$.[0].title"));
 

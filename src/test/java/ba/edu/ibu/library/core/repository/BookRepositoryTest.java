@@ -27,5 +27,6 @@ public class BookRepositoryTest {
     public void shouldFindBookByTitle() {
         Optional<Book> book = bookRepository.findByTitle("Alice in Wonderland");
         Assertions.assertNotNull(book.orElse(null));
+        Assertions.assertEquals("Alice in Wonderland", book.get().getTitle());
     }
 }

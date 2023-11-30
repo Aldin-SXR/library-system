@@ -2,7 +2,9 @@ package ba.edu.ibu.library.core.service;
 
 import ba.edu.ibu.library.core.api.mailsender.MailSender;
 import ba.edu.ibu.library.core.exceptions.repository.ResourceNotFoundException;
+import ba.edu.ibu.library.core.model.Book;
 import ba.edu.ibu.library.core.model.User;
+import ba.edu.ibu.library.core.repository.BookRepository;
 import ba.edu.ibu.library.core.repository.UserRepository;
 import ba.edu.ibu.library.rest.dto.UserDTO;
 import ba.edu.ibu.library.rest.dto.UserRequestDTO;
@@ -15,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.io.NotActiveException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final BookRepository bookRepository;
 
     /**
      * Method 1: Using @Autowired with implementation names
@@ -39,8 +43,9 @@ public class UserService {
 //    @Autowired
 //    private MailSender mailSender;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BookRepository bookRepository) {
         this.userRepository = userRepository;
+        this.bookRepository = bookRepository;
     }
 
     public List<UserDTO> getUsers() {
@@ -86,6 +91,20 @@ public class UserService {
         Optional<User> user = userRepository.findFirstByEmailLike(email);
         // Optional<User> user = userRepository.findByEmailCustom(email);
         return user.map(UserDTO::new).orElse(null);
+    }
+
+    public List<Book> getBooksByUser(String userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+        }
+        List<String> borrowedBookIds = user.get().getBorrowedBooks();
+        List<Book> books = new ArrayList<>();
+        for (String id: borrowedBookIds) {
+            Optional<Book> book = bookRepository.findById(id);
+            book.ifPresent(books::add);
+        }
+        return books;
     }
 
     public UserDetailsService userDetailsService() {

@@ -2,6 +2,7 @@ package ba.edu.ibu.library.core.repository;
 
 import ba.edu.ibu.library.core.model.Book;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;

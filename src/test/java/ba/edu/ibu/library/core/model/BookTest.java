@@ -30,6 +30,13 @@ public class BookTest {
     }
 
     @Test
+    void shouldUpdateBook() {
+        Book book = new Book();
+        book.setTitle("My new book.");
+        Assertions.assertEquals("My new book.", book.getTitle());
+    }
+
+    @Test
     void shouldCompareTwoBooks() {
         Book book1 = new Book(
                 "someId",
