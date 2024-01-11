@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/users")
 @SecurityRequirement(name = "JWT Security")
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;

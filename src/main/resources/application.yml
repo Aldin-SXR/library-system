@@ -11,8 +11,7 @@ configuration:
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
+      uri: mongodb+srv://aldin:GXst6r91aBaQzUHa@library.ymj4ft5.mongodb.net/?retryWrites=true&w=majority
       database: library-db
 
 email:

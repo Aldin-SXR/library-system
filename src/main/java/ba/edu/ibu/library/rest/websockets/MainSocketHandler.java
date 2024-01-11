@@ -4,6 +4,7 @@ import ba.edu.ibu.library.core.exceptions.GeneralException;
 import ba.edu.ibu.library.core.model.User;
 import ba.edu.ibu.library.core.service.JwtService;
 import ba.edu.ibu.library.core.service.UserService;
+import com.jayway.jsonpath.JsonPath;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
@@ -53,6 +54,11 @@ public class MainSocketHandler implements WebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         String messageReceived = (String) message.getPayload();
+
+        String userId = JsonPath.read(messageReceived, "$.userId");
+        String userMessage = JsonPath.read(messageReceived, "$.message");
+
+        sendMessage(userId, userMessage);
         System.out.println("Message received: " + messageReceived);
     }
 

@@ -27,7 +27,7 @@ public class UserRequestDTO {
 
     public User toEntity() {
         User user = new User();
-        user.setUserType(userType);
+        user.setUserType(userType != null ? userType : UserType.MEMBER);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
